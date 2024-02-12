@@ -25,7 +25,7 @@ wget https://ftp.gnu.org/gnu/gcc/gcc-$GCCVER/gcc-$GCCVER.tar.gz >>$LOGFILE 2>&1
 echo "  Extracting gcc-${GCCVER}.tar.gz" | tee -a $LOGFILE
 tar -xvf gcc-$GCCVER.tar.gz >>$LOGFILE 2>&1
 cd gcc-$GCCVER
-echo "  Getting GCC prereqs with included script"
+echo "  Getting GCC prereqs with included script" | tee -a $LOGFILE
 ./contrib/download_prerequisites
 echo "  Configuring gcc-${GCCVER}" | tee -a $LOGFILE
 ./configure --prefix=$GCCDIR --enable-languages=c,c++ --disable-multilib

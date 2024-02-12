@@ -1,9 +1,9 @@
 #! /bin/bash
 
-PREFIX=${HOME}
 SOURCEDIR="${HOME}/python-script-source"
 PYTHONVER="3.11.8"
 PYTHONMINORVER="3.11"
+PYTHONDIR="${HOME}/python-${PYTHONVER}"
 LOGFILE="${HOME}/python${PYTHONMINORVER}-install.log"
 
 echo "  Starting python${PYTHONMINORVER} install, redirecting all output to ${LOGFILE}" | tee -a $LOGFILE
@@ -17,10 +17,11 @@ else
   exit
 fi
 
-echo -e "\n  Attempting to install openssl-1.1.1w in ${HOME}/openssl" | tee -a $LOGFILE
-cd ${HOME}
+echo -e "\n  Attempting to install openssl-1.1.1w in ${PYTHONDIR}/openssl" | tee -a $LOGFILE
+cd $HOME
 mkdir $SOURCEDIR
-mkdir ${HOME}/openssl
+mkdir $PYTHONDIR
+mkdir $PYTHONDIR/openssl
 cd $SOURCEDIR
 echo "  Downloading openssl-1.1.1w.tar.gz" | tee -a $LOGFILE
 wget https://www.openssl.org/source/openssl-1.1.1w.tar.gz >>$LOGFILE 2>&1
@@ -28,26 +29,26 @@ echo "  Extracting openssl-1.1.1w.tar.gz" | tee -a $LOGFILE
 tar -xvf openssl-1.1.1w.tar.gz >>$LOGFILE 2>&1
 cd openssl-1.1.1w
 echo "  Configuring openssl-1.1.1w" | tee -a $LOGFILE
-./config --prefix=$PREFIX/openssl --openssldir=$PREFIX/openssl >>$LOGFILE 2>&1
+./config --prefix=$PYTHONDIR/openssl --openssldir=$PYTHONDIR/openssl >>$LOGFILE 2>&1
 echo "  Make and make installing openssl-1.1.1w. This will take a bit of time" | tee -a $LOGFILE
 make >>$LOGFILE 2>&1
 make install >>$LOGFILE 2>&1
 
 echo -e "\n\n" | tee -a $LOGFILE
 echo "  Backing up bash_profile as ${HOME}/.bash_profile-python-install.bak" | tee -a $LOGFILE
-cp ${HOME}/.bash_profile ${HOME}/.bash_profile-python-install.bak
+cp $HOME/.bash_profile $HOME/.bash_profile-python-install.bak
 echo "  Updating bash_profile with necessary variables at the end of ${HOME}/.bash_profile and reloading bash profile" | tee -a $LOGFILE
 echo "  NOTE: Please verify that the changes are acceptable to you, it can potentially impact your work on other systems!" | tee -a $LOGFILE
 sleep 3
-cat >> ${HOME}/.bash_profile << EOF
+cat >> $HOME/.bash_profile << EOF
  
 ##### Added by the centos7-python3.X-install.sh script #####
-export PATH=$HOME/openssl/bin:$PATH
-export LD_LIBRARY_PATH=$HOME/openssl/lib:$LD_LIRBARY_PATH
+export PATH=$PYTHONDIR/openssl/bin:$PATH
+export LD_LIBRARY_PATH=$PYTHONDIR/openssl/lib:$LD_LIRBARY_PATH
 export LC_ALL="en_US.UTF-8"
-export LDFLAGS="-L $HOME/openssl/lib -Wl,-rpath,$HOME/openssl/lib"
+export LDFLAGS="-L $PYTHONDIR/openssl/lib -Wl,-rpath,$PYTHONDIR/openssl/lib"
 EOF
-. ${HOME}/.bash_profile
+. $HOME/.bash_profile
 
 echo -e "\n  Verifying OpenSSL is showing 1.1.1w" | tee -a $LOGFILE
 if [ $(openssl version | grep -c '1.1.1w') -eq 1 ]; then
@@ -64,49 +65,48 @@ if [ $(yum list installed | grep -c 'zlib-devel') -eq 1 ]; then
 else
   echo "  zlib-devel not found, attempting to install." | tee -a $LOGFILE
   cd $SOURCEDIR
-  mkdir ${HOME}/zlib
+  mkdir $PYTHONDIR/zlib
   echo "  Downloading zlib-1.3.1.tar.gz" | tee -a $LOGFILE
   wget https://www.zlib.net/zlib-1.3.1.tar.gz >>$LOGFILE 2>&1
   echo "  Extracting zlib-1.3.1.tar.gz" | tee -a $LOGFILE
   tar -xvf zlib-1.3.1.tar.gz >>$LOGFILE 2>&1
   cd zlib-1.3.1
   echo "  Configuring zlib-1.3.1" | tee -a $LOGFILE
-  ./configure --prefix=${HOME}/zlib >>$LOGFILE 2>&1
+  ./configure --prefix=$PYTHONDIR/zlib >>$LOGFILE 2>&1
   echo "  Make and make installing zlib-1.3.1. This will take a bit of time" | tee -a $LOGFILE
   make >>$LOGFILE 2>&1
   make install >>$LOGFILE 2>&1
-  sed -i '/^export LD_LIBRARY_PATH/ s/$/:${HOME}\/zlib\/lib/' ${HOME}/.bash_profile
+  sed -i '/^export LD_LIBRARY_PATH/ s/$/:${PYTHONDIR}\/zlib\/lib/' $HOME/.bash_profile
   cat >> ${HOME}/.bash_profile << EOF
-export C_INCLUDE_PATH=${HOME}/zlib/include
-export CPLUS_INCLUDE_PATH=${HOME}/zlib/include
+export C_INCLUDE_PATH=$HOME/zlib/include
+export CPLUS_INCLUDE_PATH=$HOME/zlib/include
 EOF
 fi
 
 echo -e "\n  Attempting to install python ${PYTHONVER}" | tee -a $LOGFILE
 sleep 3
-mkdir ${HOME}/python-${PYTHONVER}
 cd $SOURCEDIR
 echo "  Downloading Python-${PYTHONVER}.tgz" | tee -a $LOGFILE
 wget https://www.python.org/ftp/python/${PYTHONVER}/Python-${PYTHONVER}.tgz >>$LOGFILE 2>&1
 echo "  Extracting Python-${PYTHONVER}.tgz" | tee -a $LOGFILE
 tar -xvf Python-${PYTHONVER}.tgz >>$LOGFILE 2>&1
 cd Python-${PYTHONVER}
-sed -i '/#zlib/c\zlib  zlibmodule.c -I${HOME}/zlib/include -L${HOME}/zlib/lib -lz' "$SOURCEDIR/Python-$PYTHONVER/Modules/Setup"
+sed -i '/#zlib/c\zlib  zlibmodule.c -I${PYTHONDIR}/zlib/include -L${PYTHONDIR}/zlib/lib -lz' "$SOURCEDIR/Python-$PYTHONVER/Modules/Setup"
 echo "  Configuring Python-${PYTHONVER}" | tee -a $LOGFILE
-./configure --prefix=${HOME}/python-${PYTHONVER} --with-openssl=${HOME}/openssl >>$LOGFILE 2>&1
+./configure --prefix=$PYTHONDIR --with-openssl=$PYTHONDIR/openssl >>$LOGFILE 2>&1
 echo "  Make and make installing Python-${PYTHONVER}. This will take a bit of time" | tee -a $LOGFILE
 make >>$LOGFILE 2>&1
 make install >>$LOGFILE 2>&1
 
 echo -e "\n  Updating path with aliases for new python and pip v${PYTHONVER}" | tee -a $LOGFILE
 cat >> ${HOME}/.bash_profile << EOF
-alias python${PYTHONMINORVER}="${HOME}/python-${PYTHONVER}/bin/python${PYTHONMINORVER}"
-alias pip${PYTHONMINORVER}="${HOME}/python-${PYTHONVER}/bin/pip${PYTHONMINORVER}"
+alias python${PYTHONMINORVER}="${PYTHONDIR}/bin/python${PYTHONMINORVER}"
+alias pip${PYTHONMINORVER}="${PYTHONDIR}/bin/pip${PYTHONMINORVER}"
 EOF
 
 echo -e "\n  Checking that python and pip are found where they're expected." | tee -a $LOGFILE
-echo "  Python$PYTHONMINORVER: $(ls $HOME/python-$PYTHONVER/bin/python$PYTHONMINORVER)"
-echo "  Pip$PYTHONMINORVER: $(ls $HOME/python-$PYTHONVER/bin/pip$PYTHONMINORVER)"
+echo "  Python$PYTHONMINORVER: $(ls $PYTHONDIR/bin/python$PYTHONMINORVER)"
+echo "  Pip$PYTHONMINORVER: $(ls $PYTHONDIR/bin/pip$PYTHONMINORVER)"
 
 echo -e "\n\n  NOTE: You will need to source .bash_profile to use the new aliases" | tee -a $LOGFILE
 echo "    this can be done with the command '. ~/.bash_profile' or by logging out/in" | tee -a $LOGFILE

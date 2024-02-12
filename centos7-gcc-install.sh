@@ -1,13 +1,10 @@
 #! /bin/bash
 
-PREFIX=${HOME}
 SOURCEDIR="${HOME}/gcc-script-source"
 GCCVER="13.2.0"
 GCCMINORVER="13.2"
 GCCDIR="${HOME}/gcc-${GCCVER}"
 LOGFILE="${HOME}/gcc${GCCMINORVER}-install.log"
-GMPVER="6.3.0"
-MPFRVER="4.2.1"
 
 echo "  Starting gcc-${GCCMINORVER} install, redirecting all output to ${LOGFILE}" | tee -a $LOGFILE
 echo "  NOTE: This script only enables c & c++ by default, please use CTRL+C to cancel and update this script if you need other language support!"
@@ -30,14 +27,14 @@ cd gcc-$GCCVER
 echo "  Getting GCC prereqs with included script"
 ./contrib/download_prerequisites
 echo "  Configuring gcc-${GCCVER}" | tee -a $LOGFILE
-./configure --prefix=$PREFIX/gcc-$GCCVER --enable-languages=c,c++ --disable-multilib
+./configure --prefix=$GCCDIR --enable-languages=c,c++ --disable-multilib
 echo "  Make and make installing gcc-${GCCVER}. This generally takes a long time, please stand by" | tee -a $LOGFILE
 make | tee -a $LOGFILE
 make install | tee -a $LOGFILE
 
 echo -e "\n\n" | tee -a $LOGFILE
 echo "  Backing up bash_profile as ${HOME}/.bash_profile-gcc-install.bak" | tee -a $LOGFILE
-cp ${HOME}/.bash_profile ${HOME}/.bash_profile-gcc-install.bak
+cp $HOME/.bash_profile $HOME/.bash_profile-gcc-install.bak
 echo "  Updating bash_profile with necessary variables at the end of ${HOME}/.bash_profile and reloading bash profile" | tee -a $LOGFILE
 echo "  NOTE: Please verify that the changes are acceptable to you, it can potentially impact your work on other systems!" | tee -a $LOGFILE
 cd $HOME

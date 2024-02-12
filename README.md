@@ -6,4 +6,5 @@
 
 ### Caveats
 - all scripts are provided as-is, there is no official support or endorsement from calpoly, ITS, etc.
+- by default the skel for homedirs does not allow write access to .bash_profile. This will cause parts of the script to fail. You can `chmod 600 ~/.bash_profile` before running to allow yourself and the scripts to write to .bash_profile.
 - centos7-gcc-install.sh - Installing a different version of gcc and its dependencies can have unexpected consequences, only proceed if necessary. This install can take a _long_ time to complete.

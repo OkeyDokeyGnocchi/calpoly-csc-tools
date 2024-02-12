@@ -107,7 +107,7 @@ echo "  Python$PYTHONMINORVER: $(ls $HOME/python-$PYTHONVER/bin/python$PYTHONMIN
 echo "  Pip$PYTHONMINORVER: $(ls $HOME/python-$PYTHONVER/bin/pip$PYTHONMINORVER)"
 
 echo -e "\n\n  NOTE: You will need to source .bash_profile to use the new aliases" | tee -a $LOGFILE
-echo "    this can be done with `. ~/.bash_profile` or by logging out/in" | tee -a $LOGFILE
+echo "    this can be done with the command '. ~/.bash_profile' or by logging out/in" | tee -a $LOGFILE
 
 echo -e "\n  Cleaning up source directory ($SOURCEDIR) to save space" | tee -a $LOGFILE
 rm -rf $SOURCEDIR

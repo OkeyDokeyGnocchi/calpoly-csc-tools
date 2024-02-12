@@ -31,7 +31,7 @@ echo "  Getting GCC prereqs with included script"
 ./contrib/download_prerequisites
 echo "  Configuring gcc-${GCCVER}" | tee -a $LOGFILE
 ./configure --prefix=$PREFIX/gcc-$GCCVER --enable-languages=c,c++ --disable-multilib
-echo "  Make and make installing gcc-${GCCVER}. This will take a while, please stand by" | tee -a $LOGFILE
+echo "  Make and make installing gcc-${GCCVER}. This generally takes a long time, please stand by" | tee -a $LOGFILE
 make | tee -a $LOGFILE
 make install | tee -a $LOGFILE
 

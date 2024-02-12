@@ -13,8 +13,7 @@ echo -e "  Checking if group "Development Tools" is installed" | tee -a $LOGFILE
 if [ $(yum grouplist installed | grep -c 'Development Tools') -eq 1 ]; then
   echo "  Development Tools found, continuing" | tee -a $LOGFILE
 else
-  echo "  Development Tools not installed, exiting" | tee -a $LOGFILE
-  exit
+  echo "  Development Tools not installed, there may be missing prereqs!" | tee -a $LOGFILE
 fi
 
 echo -e "\n  Attempting to install openssl-1.1.1w in ${HOME}/openssl" | tee -a $LOGFILE

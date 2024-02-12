@@ -103,8 +103,8 @@ alias pip${PYTHONMINORVER}="${HOME}/python-${PYTHONVER}/bin/pip${PYTHONMINORVER}
 EOF
 
 echo "\n  Checking that python and pip are found where they're expected." | tee -a $LOGFILE
-ls $HOME/python-$PYTHONVER/bin/python$PYTHONMINORVER
-ls $HOME/python-$PYTHONVER/bin/pip$PYTHONMINORVER
+echo "  Python$PYTHONMINORVER: $(ls $HOME/python-$PYTHONVER/bin/python$PYTHONMINORVER)"
+echo "  Pip$PYTHONMINORVER: $(ls $HOME/python-$PYTHONVER/bin/pip$PYTHONMINORVER)"
 
 echo "  NOTE: You will need to source .bash_profile to use the new aliases" | tee -a $LOGFILE
 echo "    this can be done with `. ~/.bash_profile` or by logging out/in" | tee -a $LOGFILE

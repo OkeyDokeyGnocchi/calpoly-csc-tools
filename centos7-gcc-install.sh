@@ -24,6 +24,7 @@ echo "  Downloading gcc-${GCCVER}.tar.gz" | tee -a $LOGFILE
 wget https://ftp.gnu.org/gnu/gcc/gcc-$GCCVER/gcc-$GCCVER.tar.gz >>$LOGFILE 2>&1
 echo "  Extracting gcc-${GCCVER}.tar.gz" | tee -a $LOGFILE
 tar -xvf gcc-$GCCVER.tar.gz >>$LOGFILE 2>&1
+echo -e "\n  Finished extracting gcc-${GCCVER}" | tee -a $LOGFILE
 cd gcc-$GCCVER
 echo "  Getting GCC prereqs with included script" | tee -a $LOGFILE
 ./contrib/download_prerequisites | tee -a $LOGFILE

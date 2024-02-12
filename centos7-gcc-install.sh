@@ -29,10 +29,11 @@ cd gcc-$GCCVER
 echo "  Getting GCC prereqs with included script" | tee -a $LOGFILE
 ./contrib/download_prerequisites | tee -a $LOGFILE
 echo "  Configuring gcc-${GCCVER}" | tee -a $LOGFILE
-./configure --prefix=$GCCDIR --enable-languages=c,c++ --disable-multilib | tee -a $LOGFILE
+./configure --prefix=$GCCDIR --enable-languages=c,c++ --disable-multilib >>$LOGFILE 2>&1
 echo "  Make and make installing gcc-${GCCVER}. This generally takes a very long time, please stand by" | tee -a $LOGFILE
-make | tee -a $LOGFILE
-make install | tee -a $LOGFILE
+make >>$LOGFILE 2>&1
+echo -e "\n  Make step finished, running make install" | tee -a $LOGFILE
+make install >>$LOGFILE 2>&1
 
 echo -e "\n\n" | tee -a $LOGFILE
 echo "  Backing up bash_profile as ${HOME}/.bash_profile-gcc-install.bak" | tee -a $LOGFILE

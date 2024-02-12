@@ -34,6 +34,8 @@ make >>$LOGFILE 2>&1
 make install >>$LOGFILE 2>&1
 
 echo -e "\n\n" | tee -a $LOGFILE
+echo "  Backing up bash_profile as ${HOME}/.bash_profile-python-install.bak" | tee -a $LOGFILE
+cp ${HOME}/.bash_profile ${HOME}/.bash_profile-python-install.bak
 echo "  Updating bash_profile with necessary variables at the end of ${HOME}/.bash_profile and reloading bash profile" | tee -a $LOGFILE
 echo "  NOTE: Please verify that the changes are acceptable to you, it can potentially impact your work on other systems!" | tee -a $LOGFILE
 sleep 3

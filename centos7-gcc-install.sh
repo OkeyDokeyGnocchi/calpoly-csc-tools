@@ -36,6 +36,8 @@ make | tee -a $LOGFILE
 make install | tee -a $LOGFILE
 
 echo -e "\n\n" | tee -a $LOGFILE
+echo "  Backing up bash_profile as ${HOME}/.bash_profile-gcc-install.bak" | tee -a $LOGFILE
+cp ${HOME}/.bash_profile ${HOME}/.bash_profile-gcc-install.bak
 echo "  Updating bash_profile with necessary variables at the end of ${HOME}/.bash_profile and reloading bash profile" | tee -a $LOGFILE
 echo "  NOTE: Please verify that the changes are acceptable to you, it can potentially impact your work on other systems!" | tee -a $LOGFILE
 cd $HOME

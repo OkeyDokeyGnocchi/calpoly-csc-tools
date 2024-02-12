@@ -26,9 +26,9 @@ echo "  Extracting gcc-${GCCVER}.tar.gz" | tee -a $LOGFILE
 tar -xvf gcc-$GCCVER.tar.gz >>$LOGFILE 2>&1
 cd gcc-$GCCVER
 echo "  Getting GCC prereqs with included script" | tee -a $LOGFILE
-./contrib/download_prerequisites
+./contrib/download_prerequisites | tee -a $LOGFILE
 echo "  Configuring gcc-${GCCVER}" | tee -a $LOGFILE
-./configure --prefix=$GCCDIR --enable-languages=c,c++ --disable-multilib
+./configure --prefix=$GCCDIR --enable-languages=c,c++ --disable-multilib | tee -a $LOGFILE
 echo "  Make and make installing gcc-${GCCVER}. This generally takes a very long time, please stand by" | tee -a $LOGFILE
 make | tee -a $LOGFILE
 make install | tee -a $LOGFILE

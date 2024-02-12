@@ -7,7 +7,7 @@ PYTHONMINORVER="3.11"
 LOGFILE="${HOME}/python${PYTHONMINORVER}-install.log"
 
 echo "  Starting python${PYTHONMINORVER} install, redirecting all output to ${LOGFILE}" | tee -a $LOGFILE
-sleep 5
+sleep 3
 
 echo -e "  Checking if group "Development Tools" is installed" | tee -a $LOGFILE
 if [ $(yum grouplist installed | grep -c 'Development Tools') -eq 1 ]; then
@@ -38,10 +38,10 @@ echo "  Updating bash_profile with necessary variables at the end of ${HOME}/.ba
 echo "  NOTE: Please verify that the changes are acceptable to you, it can potentially impact your work on other systems!" | tee -a $LOGFILE
 sleep 3
 cat >> ${HOME}/.bash_profile << EOF
-
-##### Added by the python 3.11 install script #####
+ 
+##### Added by the centos7-python3.X-install.sh script #####
 export PATH=$HOME/openssl/bin:$PATH
-export LD_LIBRARY_PATH=$HOME/openssl/lib
+export LD_LIBRARY_PATH=$HOME/openssl/lib:$LD_LIRBARY_PATH
 export LC_ALL="en_US.UTF-8"
 export LDFLAGS="-L $HOME/openssl/lib -Wl,-rpath,$HOME/openssl/lib"
 EOF

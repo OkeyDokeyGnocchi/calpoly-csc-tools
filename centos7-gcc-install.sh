@@ -7,9 +7,10 @@ GCCDIR="${HOME}/gcc-${GCCVER}"
 LOGFILE="${HOME}/gcc${GCCMINORVER}-install.log"
 
 echo "  Starting gcc-${GCCMINORVER} install, redirecting all output to ${LOGFILE}" | tee -a $LOGFILE
-echo "  NOTE: This script only enables c & c++ by default, please use CTRL+C to cancel and update this script if you need other language support!"
-echo "  NOTE: Installing a user-specific version of gcc can have unexpected consequences, only proceed if you're sure"
-echo -e "\n  NOTE: gcc installs take up a lot of space, please ensure you have a good amount (>5GB) of free space in your homedir before installing!"
+echo -e "\n  NOTE: This script only enables c & c++ by default, please use CTRL+C to cancel and update this script if you need other language support!"
+echo "    - Installing a user-specific version of gcc can have unexpected consequences, only proceed if you're sure"
+echo "    - gcc installs take up a lot of space, please ensure you have a good amount (>5GB) of free space in your homedir before installing!"
+echo "    - gcc install takes a very long time, be ready to be patient"
 echo "  Sleeping 20 seconds to give time to cancel if needed..."
 sleep 20
 

@@ -29,7 +29,7 @@ fi
 
 # CLI Parameters
 PROP_HOSTNAME=$1
-KEYACCESS_INSTALLER_S3=$2
+KEYACCESS_INSTALLER_S3_URI=$2
 
 # OPENSSL_PREFIX could be removed, this was added to ensure it doesn't come anywhere near touching the OS's default OpenSSL
 OPENSSL_PREFIX="/opt/openssl1.1.1"
@@ -63,7 +63,7 @@ if [ ! -d $OPENSSL_PREFIX ]; then
     tar -xvf openssl-1.1.1w.tar.gz
     cd openssl-1.1.1w
     echo "  Configuring openssl-1.1.1w"
-    ./config --OPENSSL_PREFIX=$OPENSSL_PREFIX --openssldir=$OPENSSL_PREFIX
+    ./config --prefix=$OPENSSL_PREFIX --openssldir=$OPENSSL_PREFIX
     echo "  make and make installing openssl-1.1.1w. This will take some time..."
     make
     make install

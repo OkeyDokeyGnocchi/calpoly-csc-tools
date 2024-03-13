@@ -31,8 +31,8 @@ fi
 PROP_HOSTNAME=$1
 KEYACCESS_INSTALLER_S3_URI=$2
 
-# OPENSSL_PREFIX could be removed, this was added to ensure it doesn't come anywhere near touching the OS's default OpenSSL
-OPENSSL_PREFIX="/opt/openssl1.1.1"
+# OPENSSL_111 could be removed, this was added to ensure it doesn't come anywhere near touching the OS's default OpenSSL
+OPENSSL_111="/usr/local/bin/openssl"
 SOURCEDIR="openssl1.1.1-source"
 LOGFILE="openssl1.1.1-install.log"
 declare -a PREREQS=("gcc" "perl" "make" "wget")
@@ -40,8 +40,8 @@ declare -a PREREQS=("gcc" "perl" "make" "wget")
 # Set all stdout and stderr to tee to our LOGFILE for review if needed
 exec > >(tee -a $LOGFILE) 2>&1
 
-# Check if the directory for OPENSSL_PREFIX exists, if so we don't need to install it
-if [ ! -d $OPENSSL_PREFIX ]; then
+# Check if the directory for OPENSSL_111 exists, if so we don't need to install it
+if [ ! -d $OPENSSL_111 ]; then
     # Get our pre-reqs verified and installed if needed
     echo -e "  Verifying pre-reqs"
     for package in "${PREREQS[@]}"; do
@@ -53,7 +53,7 @@ if [ ! -d $OPENSSL_PREFIX ]; then
         fi
     done
 
-    # Download, config, make, make install OPENSSL 1.1.1w in $OPENSSL_PREFIX
+    # Download, config, make, make install OPENSSL 1.1.1w in $OPENSSL_111
     echo "  Pre-reqs have been verified and installed"
     echo "  Getting OpenSSL1.1.1 source"
     mkdir -p $SOURCEDIR
@@ -63,23 +63,23 @@ if [ ! -d $OPENSSL_PREFIX ]; then
     tar -xvf openssl-1.1.1w.tar.gz
     cd openssl-1.1.1w
     echo "  Configuring openssl-1.1.1w"
-    ./config --prefix=$OPENSSL_PREFIX --openssldir=$OPENSSL_PREFIX
+    ./config
     echo "  make and make installing openssl-1.1.1w. This will take some time..."
     make
     make install
 
-    echo "  Installed openssl-1.1.1w at $OPENSSL_PREFIX"
+    echo "  Installed openssl-1.1.1w at $OPENSSL_111"
 
     # Now we need to set a couple of symlinks for libraries to be where KeyAccess expects them
     echo "  Creating symlinks for KeyAccess to use libssl and libscrypto"
-    ln -s "$OPENSSL_PREFIX/lib/libssl.so.1.1" "/usr/lib64/libssl.so.1.1"
-    ln -s "$OPENSSL_PREFIX/lib/libcrypto.so.1.1" "/usr/lib64/libcrypto.so.1.1"
+    ln -s "/usr/local/lib64/libssl.so.1.1" "/usr/lib64/libssl.so.1.1"
+    ln -s "/usr/local/lib64/libcrypto.so.1.1" "/usr/lib64/libcrypto.so.1.1"
     echo "  Running 'ls' against the new files for manual verification"
     ls -ail /usr/lib64/lib*.so.1.1
-    echo "  Running $OPENSSL_PREFIX/bin/openssl version for manual verification"
-    $OPENSSL_PREFIX/bin/openssl version
+    echo "  Running $OPENSSL_111/bin/openssl version for manual verification"
+    $OPENSSL_111/bin/openssl version
 else
-    echo "  Directory $OPENSSL_PREFIX already exists on this system, skipping install."
+    echo "  Directory $OPENSSL_111 already exists on this system, skipping install."
 fi
 
 # KeyAccess

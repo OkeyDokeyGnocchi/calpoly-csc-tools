@@ -100,7 +100,7 @@ if [ ! -f "/lib/systemd/system/keyaccess.service" ]; then
     fi
 
     echo "  Installing keyaccess client"
-    env PROP_HOSTNAME=$PROP_HOSTNAME rpm -i ./keyaccess-installer.rpm
+    env PROP_HOSTNAME=$PROP_HOSTNAME yum install ./keyaccess-installer.rpm
     if [ ! -f "/lib/systemd/system/keyaccess.service" ]; then
         echo "  KeyAccess service was not found, something may have gone wrong.  Exiting, please verify KeyAccess status."
         exit 1

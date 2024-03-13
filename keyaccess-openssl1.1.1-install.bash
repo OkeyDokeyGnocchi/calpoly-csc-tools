@@ -41,7 +41,7 @@ declare -a PREREQS=("gcc" "perl" "make" "wget")
 exec > >(tee -a $LOGFILE) 2>&1
 
 # Check if the directory for OPENSSL_111 exists, if so we don't need to install it
-if [ ! -d $OPENSSL_111 ]; then
+if [ ! -f $OPENSSL_111 ]; then
     # Get our pre-reqs verified and installed if needed
     echo -e "  Verifying pre-reqs"
     for package in "${PREREQS[@]}"; do

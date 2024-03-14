@@ -1,9 +1,6 @@
 #! /bin/bash
-# This is a script for installing OpenSSL-1.1.1w and KeyAccess client on RHEL 6/7
-# OpenSSL portion tested and verified on:
-#    - CentOS 6 VM clean install with yum repos fixed
-#    - CentOS 7 VM minimal install, no modifications
-# NOTE: Doesn't work with sh ./file.sh, needs bash. To use sh to run, remove the exec line below
+# This is a script for installing OpenSSL-1.1.1w and KeyAccess client on RHEL 7
+# NOTE: Doesn't work with sh ./file.sh, needs bash. To use sh to run, remove the exec line below var declarations
 
 USAGE="\nUSAGE: $(basename "$0") PROP_HOSTNAME KeyAccessS3Uri
 \n    PROP_HOSTNAME = The server fqdn for KeyServer
